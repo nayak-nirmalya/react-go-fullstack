@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -25,6 +26,21 @@ func main() {
 	// Get all ToDos
 	app.Get("/api/v1/todos", func(c *fiber.Ctx) error {
 		return c.Status(200).JSON(todos)
+	})
+
+	// Get a ToDo
+	app.Get("/api/v1/todos/:id", func(c *fiber.Ctx) error {
+		idStr := c.Params("id")
+		id, err := strconv.Atoi(idStr)
+		if err != nil {
+			return c.Status(400).JSON(fiber.Map{"error": "Invalid ID!"})
+		}
+
+		if id <= 0 || id > len(todos) {
+			return c.Status(404).JSON(fiber.Map{"error": "ToDo Not Found!"})
+		}
+
+		return c.Status(200).JSON(todos[id-1])
 	})
 
 	// Create a ToDo
