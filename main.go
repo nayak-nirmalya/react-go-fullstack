@@ -22,6 +22,11 @@ func main() {
 		return c.Status(200).JSON(fiber.Map{"message": "Hello, World! 🚀"})
 	})
 
+	// Get all ToDos
+	app.Get("/api/v1/todos", func(c *fiber.Ctx) error {
+		return c.Status(200).JSON(todos)
+	})
+
 	// Create a ToDo
 	app.Post("/api/v1/todos", func(c *fiber.Ctx) error {
 		todo := &ToDo{}
@@ -52,6 +57,11 @@ func main() {
 		}
 
 		return c.Status(400).JSON(fiber.Map{"error": "ToDo Not Found!"})
+	})
+
+	// Delete a ToDo
+	app.Delete("/api/v1/todos/:id", func(c *fiber.Ctx) error {
+		id := c.Params("id")
 	})
 
 	log.Fatal(app.Listen(":8080"))
