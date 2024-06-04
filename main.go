@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
@@ -21,6 +22,7 @@ func main() {
 		return c.Status(200).JSON(fiber.Map{"message": "Hello, World! 🚀"})
 	})
 
+	// Create a ToDo
 	app.Post("/api/v1/todos", func(c *fiber.Ctx) error {
 		todo := &ToDo{}
 
@@ -36,6 +38,20 @@ func main() {
 		todos = append(todos, *todo)
 
 		return c.Status(201).JSON(todo)
+	})
+
+	// Update a ToDo
+	app.Patch("/api/v1/todos/:id", func(c *fiber.Ctx) error {
+		id := c.Params("id")
+
+		for i, todo := range todos {
+			if fmt.Sprint(todo.ID) == id {
+				todos[i].Completed = !todos[i].Completed
+				return c.Status(200).JSON(todos[i])
+			}
+		}
+
+		return c.Status(400).JSON(fiber.Map{"error": "ToDo Not Found!"})
 	})
 
 	log.Fatal(app.Listen(":8080"))
