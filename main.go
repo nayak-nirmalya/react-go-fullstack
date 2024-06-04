@@ -78,6 +78,15 @@ func main() {
 	// Delete a ToDo
 	app.Delete("/api/v1/todos/:id", func(c *fiber.Ctx) error {
 		id := c.Params("id")
+
+		for i, todo := range todos {
+			if fmt.Sprint(todo.ID) == id {
+				todos = append(todos[:i], todos[i+1:]...)
+				return c.Status(200).JSON(fiber.Map{"success": true})
+			}
+		}
+
+		return c.Status(400).JSON(fiber.Map{"success": false})
 	})
 
 	log.Fatal(app.Listen(":8080"))
