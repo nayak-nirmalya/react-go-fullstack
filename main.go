@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
@@ -22,6 +23,8 @@ func main() {
 	if err != nil {
 		log.Fatal("Error Loading .env File!")
 	}
+
+	PORT := os.Getenv("PORT")
 
 	todos := []ToDo{}
 
@@ -95,5 +98,5 @@ func main() {
 		return c.Status(400).JSON(fiber.Map{"success": false})
 	})
 
-	log.Fatal(app.Listen(":8080"))
+	log.Fatal(app.Listen(":" + PORT))
 }
