@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/joho/godotenv"
 )
 
 type ToDo struct {
@@ -16,6 +17,11 @@ type ToDo struct {
 
 func main() {
 	app := fiber.New()
+
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatal("Error Loading .env File!")
+	}
 
 	todos := []ToDo{}
 
