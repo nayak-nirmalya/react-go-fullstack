@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -45,4 +46,10 @@ func main() {
 	fmt.Println("Connected to MongoDB Atlas. ☁️")
 
 	collection = client.Database("go-lang-react").Collection("todos")
+
+	app := fiber.New()
+
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.SendString("Hello, World 👋!")
+	})
 }
