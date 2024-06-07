@@ -28,7 +28,7 @@ func main() {
 	}
 
 	MONGODB_URI := os.Getenv("MONGODB_URI")
-	PORT := os.Getenv("PORT")
+	// PORT := os.Getenv("PORT")
 
 	clientOptions := options.Client().ApplyURI(MONGODB_URI)
 	client, err := mongo.Connect(context.Background(), clientOptions)
@@ -43,4 +43,6 @@ func main() {
 	}
 
 	fmt.Println("Connected to MongoDB Atlas. ☁️")
+
+	collection = client.Database("go-lang-react").Collection("todos")
 }
