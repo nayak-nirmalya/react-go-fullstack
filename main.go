@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -23,4 +24,8 @@ func main() {
 	if err != nil {
 		log.Fatal("Error Loading .env File: ", err)
 	}
+
+	MONGODB_URI := os.Getenv("MONGODB_URI")
+	PORT := os.Getenv("PORT")
+
 }
