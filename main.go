@@ -1,6 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+
+	"github.com/joho/godotenv"
+	"go.mongodb.org/mongo-driver/mongo"
+)
 
 type ToDo struct {
 	ID        int    `json:"_id" bson:"_id"`
@@ -8,6 +14,13 @@ type ToDo struct {
 	Body      string `json:"body"`
 }
 
+var collection *mongo.Collection
+
 func main() {
-	fmt.Println("Hello, world!")
+	fmt.Println("Hello, World! 🚀")
+
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatal("Error Loading .env File: ", err)
+	}
 }
