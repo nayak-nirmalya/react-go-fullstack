@@ -8,6 +8,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -53,10 +54,10 @@ func main() {
 	})
 
 	app.Get("/api/v1/todos", getToDos)
-	app.Get("/api/v1/todos:id", getToDo)
-	app.Post("/api/v1/todos", createToDo)
-	app.Patch("/api/v1/todos:id", updateToDo)
-	app.Delete("/api/v1/todos:id", deleteToDo)
+	// app.Get("/api/v1/todos:id", getToDo)
+	// app.Post("/api/v1/todos", createToDo)
+	// app.Patch("/api/v1/todos:id", updateToDo)
+	// app.Delete("/api/v1/todos:id", deleteToDo)
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
@@ -66,8 +67,27 @@ func main() {
 	log.Fatal(app.Listen("0.0.0.0:" + PORT))
 }
 
-func getToDos(c *fiber.Ctx) error   {}
-func getToDo(c *fiber.Ctx) error    {}
-func createToDo(c *fiber.Ctx) error {}
-func updateToDo(c *fiber.Ctx) error {}
-func deleteToDo(c *fiber.Ctx) error {}
+func getToDos(c *fiber.Ctx) error {
+	var todos []ToDo
+
+	cursor, err := collection.Find(context.Background(), bson.M{})
+	if err != nil {
+		return err
+	}
+
+	for cursor.Next(context.Background()) {
+		var todo ToDo
+		if err := cursor.Decode(&todo); err != nil {
+			return err
+		}
+
+		todos = append(todos, todo)
+	}
+
+	return c.JSON(todos)
+}
+
+// func getToDo(c *fiber.Ctx) error    {}
+// func createToDo(c *fiber.Ctx) error {}
+// func updateToDo(c *fiber.Ctx) error {}
+// func deleteToDo(c *fiber.Ctx) error {}
