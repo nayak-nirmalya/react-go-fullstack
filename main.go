@@ -75,6 +75,8 @@ func getToDos(c *fiber.Ctx) error {
 		return err
 	}
 
+	defer cursor.Close(context.Background())
+
 	for cursor.Next(context.Background()) {
 		var todo ToDo
 		if err := cursor.Decode(&todo); err != nil {
