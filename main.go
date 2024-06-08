@@ -111,7 +111,9 @@ func createToDo(c *fiber.Ctx) error {
 		return err
 	}
 
-	todo.ID = insertResult.InsertedID.(primitive.ObjectID).Int()
+	todo.ID = insertResult.InsertedID.(primitive.ObjectID)
+
+	return c.Status(201).JSON(todo)
 }
 
 // func updateToDo(c *fiber.Ctx) error {}
