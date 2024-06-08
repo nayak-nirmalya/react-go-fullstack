@@ -38,6 +38,8 @@ func main() {
 		log.Fatal("Error Connection to MongoDB: ", err)
 	}
 
+	defer client.Disconnect(context.Background())
+
 	err = client.Ping(context.Background(), nil)
 	if err != nil {
 		log.Fatal("Error Connection to MongoDB: ", err)
