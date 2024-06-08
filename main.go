@@ -9,14 +9,15 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type ToDo struct {
-	ID        int    `json:"_id" bson:"_id"`
-	Completed bool   `json:"completed"`
-	Body      string `json:"body"`
+	ID        primitive.ObjectID `json:"_id" bson:"_id"`
+	Completed bool               `json:"completed"`
+	Body      string             `json:"body"`
 }
 
 var collection *mongo.Collection
@@ -57,7 +58,7 @@ func main() {
 
 	app.Get("/api/v1/todos", getToDos)
 	// app.Get("/api/v1/todos:id", getToDo)
-	// app.Post("/api/v1/todos", createToDo)
+	app.Post("/api/v1/todos", createToDo)
 	// app.Patch("/api/v1/todos:id", updateToDo)
 	// app.Delete("/api/v1/todos:id", deleteToDo)
 
@@ -92,6 +93,26 @@ func getToDos(c *fiber.Ctx) error {
 }
 
 // func getToDo(c *fiber.Ctx) error    {}
-// func createToDo(c *fiber.Ctx) error {}
+func createToDo(c *fiber.Ctx) error {
+	todo := new(ToDo)
+
+	if err := c.BodyParser(todo); err != nil {
+		return err
+	}
+
+	if todo.Body == "" {
+		return c.Status(400).JSON(fiber.Map{
+			"error": "Body is required",
+		})
+	}
+
+	insertResult, err := collection.InsertOne(context.Background(), todo)
+	if err != nil {
+		return err
+	}
+
+	todo.ID = insertResult.InsertedID.(primitive.ObjectID).Int()
+}
+
 // func updateToDo(c *fiber.Ctx) error {}
 // func deleteToDo(c *fiber.Ctx) error {}
