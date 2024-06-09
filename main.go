@@ -57,7 +57,7 @@ func main() {
 	})
 
 	app.Get("/api/v1/todos", getToDos)
-	// app.Get("/api/v1/todos:id", getToDo)
+	app.Get("/api/v1/todos:id", getToDo)
 	app.Post("/api/v1/todos", createToDo)
 	app.Patch("/api/v1/todos:id", updateToDo)
 	// app.Delete("/api/v1/todos:id", deleteToDo)
@@ -92,7 +92,24 @@ func getToDos(c *fiber.Ctx) error {
 	return c.JSON(todos)
 }
 
-// func getToDo(c *fiber.Ctx) error    {}
+func getToDo(c *fiber.Ctx) error {
+	var todo ToDo
+
+	id := c.Params("id")
+	objectID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{
+			"error": "ID is required",
+		})
+	}
+
+	err = collection.FindOne(context.Background(), bson.M{"_id": objectID}).Decode(&todo)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(todo)
+}
 
 func createToDo(c *fiber.Ctx) error {
 	todo := new(ToDo)
