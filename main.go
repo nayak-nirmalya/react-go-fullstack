@@ -126,14 +126,15 @@ func updateToDo(c *fiber.Ctx) error {
 		})
 	}
 
-	insertResult, err := collection.UpdateOne(context.Background(), todo)
+	filter := bson.M{"_id": objectID}
+	update := bson.M{"$set": bson.M{"completed": true}}
+
+	_, err = collection.UpdateOne(context.Background(), filter, update)
 	if err != nil {
 		return err
 	}
 
-	todo.ID = insertResult.InsertedID.(primitive.ObjectID)
-
-	return c.Status(201).JSON(todo)
+	return c.Status(201).JSON(fiber.Map{"message": "Todo Updated!"})
 }
 
 // func deleteToDo(c *fiber.Ctx) error {}
