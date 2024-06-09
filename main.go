@@ -57,10 +57,10 @@ func main() {
 	})
 
 	app.Get("/api/v1/todos", getToDos)
-	app.Get("/api/v1/todos:id", getToDo)
+	app.Get("/api/v1/todos/:id", getToDo)
 	app.Post("/api/v1/todos", createToDo)
-	app.Patch("/api/v1/todos:id", updateToDo)
-	// app.Delete("/api/v1/todos:id", deleteToDo)
+	app.Patch("/api/v1/todos/:id", updateToDo)
+	// app.Delete("/api/v1/todos/:id", deleteToDo)
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
