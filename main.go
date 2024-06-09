@@ -60,7 +60,7 @@ func main() {
 	app.Get("/api/v1/todos/:id", getToDo)
 	app.Post("/api/v1/todos", createToDo)
 	app.Patch("/api/v1/todos/:id", updateToDo)
-	// app.Delete("/api/v1/todos/:id", deleteToDo)
+	app.Delete("/api/v1/todos/:id", deleteToDo)
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
@@ -151,7 +151,22 @@ func updateToDo(c *fiber.Ctx) error {
 		return err
 	}
 
-	return c.Status(201).JSON(fiber.Map{"message": "Todo Updated!"})
+	return c.Status(201).JSON(fiber.Map{"message": "ToDo Updated!"})
 }
 
-// func deleteToDo(c *fiber.Ctx) error {}
+func deleteToDo(c *fiber.Ctx) error {
+	id := c.Params("id")
+	objectID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{
+			"error": "ID is required",
+		})
+	}
+
+	_, err = collection.DeleteOne(context.Background(), bson.M{"_id": objectID})
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(fiber.Map{"message": "ToDo Deleted!"})
+}
