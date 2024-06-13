@@ -4,11 +4,11 @@ import { IoMdAdd } from "react-icons/io";
 
 export function ToDoForm() {
   const [newTodo, setNewTodo] = useState("");
-  const [isPending] = useState(false);
+  const [isPending, setIsPending] = useState(false);
 
   const createTodo = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Todo added!");
+    alert("ToDo Added!");
   };
   return (
     <form onSubmit={createTodo}>
