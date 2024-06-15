@@ -3,10 +3,12 @@ import { Flex, Spinner, Stack, Text } from "@chakra-ui/react";
 
 import { ToDoItem } from "./todo-item";
 
+import { ToDo } from "../types";
+
 export function ToDoList() {
   const [isLoading, setIsLoading] = useState(true);
 
-  const todos: { completed: boolean; body: string; id: number }[] = [];
+  const todos: ToDo[] = [];
 
   return (
     <>
