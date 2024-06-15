@@ -6,6 +6,8 @@ import { ToDoItem } from "./todo-item";
 export function ToDoList() {
   const [isLoading, setIsLoading] = useState(true);
 
+  const todos: { completed: boolean; body: string; id: number }[] = [];
+
   return (
     <>
       <Text
@@ -32,7 +34,7 @@ export function ToDoList() {
       )}
       <Stack gap={3}>
         {todos?.map((todo) => (
-          <ToDoItem key={todo._id} todo={todo} />
+          <ToDoItem key={todo.id} todo={todo} />
         ))}
       </Stack>
     </>
