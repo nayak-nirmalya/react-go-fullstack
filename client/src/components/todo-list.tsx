@@ -1,33 +1,10 @@
 import { useState } from "react";
 import { Flex, Spinner, Stack, Text } from "@chakra-ui/react";
 
-import TodoItem from "./TodoItem";
+import { ToDoItem } from "./todo-item";
 
 export function ToDoList() {
   const [isLoading, setIsLoading] = useState(true);
-
-  const todos = [
-    {
-      _id: 1,
-      body: "Buy groceries",
-      completed: true,
-    },
-    {
-      _id: 2,
-      body: "Walk the dog",
-      completed: false,
-    },
-    {
-      _id: 3,
-      body: "Do laundry",
-      completed: false,
-    },
-    {
-      _id: 4,
-      body: "Cook dinner",
-      completed: true,
-    },
-  ];
 
   return (
     <>
@@ -55,7 +32,7 @@ export function ToDoList() {
       )}
       <Stack gap={3}>
         {todos?.map((todo) => (
-          <TodoItem key={todo._id} todo={todo} />
+          <ToDoItem key={todo._id} todo={todo} />
         ))}
       </Stack>
     </>
