@@ -10,6 +10,7 @@ export function ToDoForm() {
     e.preventDefault();
     alert("ToDo Added!");
   };
+
   return (
     <form onSubmit={createTodo}>
       <Flex gap={2}>

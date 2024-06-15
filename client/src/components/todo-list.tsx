@@ -8,7 +8,7 @@ import { ToDo } from "../types";
 export function ToDoList() {
   const [isLoading, setIsLoading] = useState(true);
 
-  const todos: ToDo[] = [];
+  const todos: ToDo[] = [{ id: 1, body: "Learn React", completed: true }];
 
   return (
     <>
@@ -19,7 +19,7 @@ export function ToDoList() {
         textAlign={"center"}
         my={2}
       >
-        Today's Tasks
+        {`Today's Task${todos?.length === 1 ? "" : "s"}`}
       </Text>
       {isLoading && (
         <Flex justifyContent={"center"} my={4}>
@@ -29,7 +29,7 @@ export function ToDoList() {
       {!isLoading && todos?.length === 0 && (
         <Stack alignItems={"center"} gap="3">
           <Text fontSize={"xl"} textAlign={"center"} color={"gray.500"}>
-            All tasks completed! 🤞
+            All Tasks Completed! 🎉
           </Text>
           <img src="/go.png" alt="Go logo" width={70} height={70} />
         </Stack>
