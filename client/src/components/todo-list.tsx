@@ -1,14 +1,28 @@
-import { useState } from "react";
 import { Flex, Spinner, Stack, Text } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
 
 import { ToDoItem } from "./todo-item";
 
 import { ToDo } from "../types";
 
 export function ToDoList() {
-  const [isLoading, setIsLoading] = useState(true);
+  const { data: todos, isLoading } = useQuery<ToDo[]>({
+    queryKey: ["todos"],
+    queryFn: async () => {
+      try {
+        const res = await fetch(BASE_URL + "/todos");
+        const data = await res.json();
 
-  const todos: ToDo[] = [{ id: 1, body: "Learn React", completed: true }];
+        if (!res.ok) {
+          throw new Error(data.error || "Something Went Wrong! ❌");
+        }
+
+        return data || [];
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  });
 
   return (
     <>
