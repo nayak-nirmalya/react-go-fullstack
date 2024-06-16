@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ToDoItem } from "./todo-item";
 
 import { ToDo } from "../types";
+import { BASE_URL } from "../const";
 
 export function ToDoList() {
   const { data: todos, isLoading } = useQuery<ToDo[]>({
