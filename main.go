@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -52,6 +53,11 @@ func main() {
 
 	app := fiber.New()
 
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "*",
+		AllowHeaders: "Origin,Content-Type,Accept",
+	}))
+
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World 👋!")
 	})
@@ -67,7 +73,7 @@ func main() {
 		PORT = "8080"
 	}
 
-	log.Fatal(app.Listen("0.0.0.0:" + PORT))
+	log.Fatal(app.Listen("localhost:" + PORT))
 }
 
 func getToDos(c *fiber.Ctx) error {
