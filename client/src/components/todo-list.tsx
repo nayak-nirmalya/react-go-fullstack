@@ -18,6 +18,8 @@ export function ToDoList() {
         fontWeight={"bold"}
         textAlign={"center"}
         my={2}
+        bgGradient="linear(to-l, #0b85f8, #00ffff)"
+        bgClip="text"
       >
         {`Today's Task${todos?.length === 1 ? "" : "s"}`}
       </Text>
