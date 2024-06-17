@@ -1,4 +1,4 @@
-import { Badge, Box, Flex, Text } from "@chakra-ui/react";
+import { Badge, Box, Flex, Spinner, Text } from "@chakra-ui/react";
 import { FaCheckCircle } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -69,7 +69,7 @@ export function ToDoItem({ todo }: { todo: ToDo }) {
           cursor={"pointer"}
           onClick={() => updateToDo()}
         >
-          <FaCheckCircle size={20} />
+          {isUpdating ? <Spinner size={"sm"} /> : <FaCheckCircle size={20} />}
         </Box>
         <Box color={"red.500"} cursor={"pointer"}>
           <MdDelete size={25} />
