@@ -94,8 +94,8 @@ export function ToDoItem({ todo }: { todo: ToDo }) {
         >
           {isUpdating ? <Spinner size={"sm"} /> : <FaCheckCircle size={20} />}
         </Box>
-        <Box color={"red.500"} cursor={"pointer"}>
-          <MdDelete size={25} />
+        <Box color={"red.500"} cursor={"pointer"} onClick={() => deleteToDo()}>
+          {isDeleting ? <Spinner size={"sm"} /> : <MdDelete size={25} />}
         </Box>
       </Flex>
     </Flex>
