@@ -35,6 +35,29 @@ export function ToDoItem({ todo }: { todo: ToDo }) {
       }),
   });
 
+  const { mutate: deleteToDo, isPending: isDeleting } = useMutation({
+    mutationKey: ["deleteTodo"],
+    mutationFn: async () => {
+      try {
+        const res = await fetch(BASE_URL + `/todos/${todo.id}`, {
+          method: "DELETE",
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || "Something Went Wrong! ❌");
+        }
+
+        return data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
+  });
+
   return (
     <Flex gap={2} alignItems={"center"}>
       <Flex
