@@ -54,14 +54,11 @@ func main() {
 
 	app := fiber.New()
 
+	// Remove Comment to Enable CORS for Development
 	// app.Use(cors.New(cors.Config{
 	// 	AllowOrigins: "*",
 	// 	AllowHeaders: "Origin,Content-Type,Accept",
 	// }))
-
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello, World 👋!")
-	})
 
 	app.Get("/api/v1/todos", getToDos)
 	app.Get("/api/v1/todos/:id", getToDo)
@@ -73,6 +70,9 @@ func main() {
 	if PORT == "" {
 		PORT = "8080"
 	}
+
+	// Remove // to Enable React App
+	// app.Static("/", "./client/dist")
 
 	if os.Getenv("ENV") == "production" {
 		app.Static("/", "./client/dist")
