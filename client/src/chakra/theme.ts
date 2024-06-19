@@ -9,7 +9,7 @@ const config: ThemeConfig = {
 const theme = extendTheme({
   config,
   styles: {
-    global: (props: unknown) => ({
+    global: (props: never) => ({
       body: {
         backgroundColor: mode("gray.500", "")(props),
       },
